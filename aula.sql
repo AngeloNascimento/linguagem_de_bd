@@ -70,3 +70,30 @@ group by A.MATRICULA, A.nome;/*group by agrupa os elementos*/
 
 select count(*) from tabela_de_clientes;
 select c.cpf, c.nome, nf.cpf from tabela_de_clientes c inner join notas_fiscais nf on c.cpf = nf.cpf group by c.cpf;
+
+select distinct a.cpf, a.nome, b.cpf from tabela_de_clientes a left join notas_fiscais b on a.cpf = b.cpf;/*left join compara a tabela da esquerda com a da direita*/
+
+/*Funções sql*/
+select ltrim('      olá') as resultado/*ltrim remove todo espaço da esquerda*/;
+select rtrim('olá     ') as resultado/*rtrim remove todo espaço da direita*/;
+select trim('  olá  ') as resultado/*trim remove os espaços dos dois lados*/;
+select concat('olá',' ','tudo bem?')/*concat junta concatena as palavras*/;
+select lower('OLA, BOM DIA!')/*lower converte tudo em minuscula*/;
+select lcase('OLA, BOM DIA!')/*lcase converte tudo em minuscula*/;
+select upper('ola, bom dia!')/*upper converte tudo em maiuscula*/;
+select ucase('ola, bom dia!')/*ucase converte tudo em maiuscula*/;
+select substring('ola, tudo bem com vocÊs?', 5) as resultado;
+select substring('ola, tudo bem com vocÊs?', 5,6) as resultado;
+
+select concat(nome, ' (',cpf,')') as resultado from tabela_de_clientes;/*concatena as informações*/
+
+select concat(nome, ' = ', endereco_1,', ', bairro,', ', cidade, '-',estado) as resultado from tabela_de_clientes; 
+
+select curdate();/*exibe a data atual*/
+select current_time();/*exibe a hora atual*/
+select current_timestamp();/*exibe a data e a hora atual*/
+
+/**/
+
+
+

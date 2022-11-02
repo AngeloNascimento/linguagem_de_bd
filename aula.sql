@@ -92,8 +92,8 @@ select concat(nome, ' = ', endereco_1,', ', bairro,', ', cidade, '-',estado) as 
 select curdate();/*exibe a data atual*/
 select current_time();/*exibe a hora atual*/
 select current_timestamp();/*exibe a data e a hora atual*/
-
-/**/
+select monthname(current_timestamp);/*exibe o nome do mes atual*/
+select datediff(current_timestamp, '1999-06-11');/*exibe a diferença da data atual com a data anterior*/
 
 
 

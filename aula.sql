@@ -95,5 +95,43 @@ select current_timestamp();/*exibe a data e a hora atual*/
 select monthname(current_timestamp);/*exibe o nome do mes atual*/
 select datediff(current_timestamp, '1999-06-11');/*exibe a diferença da data atual com a data anterior*/
 
+select distinct data_venda, dayname(data_venda) as dia, monthname(data_venda) as mês, year(data_venda) as ano from notas_fiscais;
+
+select nome, timestampdiff(year, data_de_nascimento, curdate()) as resultado from tabela_de_clientes;
+
+/*transaction*/
+start transaction;/*sem start transaction as alterações feitas no banco nao surtirão efeito*/
+select * from tabela_de_vendedores;
+update tabela_de_vendedores set percentual_comissao = percentual_comissao * 1.15;
+rollback;/*retorna ao estado anterior*/
+
+/*auto_increment*/
+
+/*create table tab_indentity (ID INT auto_increment, DESCRITOR varchar(20), primary key(ID));
+
+/*insert*/
+
+insert into tab_indentity (descritor) values ('cliente1');
+insert into tab_indentity (descritor) values ('cliente2');
+insert into tab_indentity (descritor) values ('cliente3');
+insert into tab_indentity (id, descritor) values (null, 'cliente4');/*auto increment nao aceita valores null*/
+insert into tab_indentity (id, descritor) values (null, 'cliente5');
+insert into tab_indentity (id, descritor) values (100, 'cliente6');
+insert into tab_indentity (id, descritor) values (null, 'cliente7');
+insert into tab_indentity (id, descritor) values (2, 'cliente8');
+insert into tab_indentity (id, descritor) values (null, 'cliente9');
+
+/*delete*/
+delete from tab_indentity where id = 2;
+delete from tab_indentity where id = 5;
+delete from tab_indentity where id = 101;
+
+
+
+
+
+select * from tab_indentity
+
+
 
 

@@ -127,11 +127,81 @@ delete from tab_indentity where id = 5;
 delete from tab_indentity where id = 101;
 
 
+select * from tab_indentity;
 
 
+/*trigger*/
+create table faturamento(data_venta date null, total_venda float);
+alter table faturamento
+rename column data_venta to data_venda;
 
-select * from tab_indentity
+select * from faturamento;
+
+delete FROM notas_fiscais;
+delete from itens_notas_fiscais;
+
+insert into notas_fiscais(CPF, MATRICULA, DATA_VENDA, NUMERO, IMPOSTO) values ('19290992743', '00238', '2002-11-22', '0101', 0.10);
+insert into itens_notas_fiscais(NUMERO, CODIGO_DO_PRODUTO, QUANTIDADE, PRECO) values ("0101", "1000889", "10", 5);
+insert into itens_notas_fiscais(NUMERO, CODIGO_DO_PRODUTO, QUANTIDADE, PRECO) values ("0101", "1002334", "300", 15);
+
+insert into notas_fiscais(CPF, MATRICULA, DATA_VENDA, NUMERO, IMPOSTO) values ('19290992743', '00238', '2002-11-22', '0102', 0.10);
+insert into itens_notas_fiscais(NUMERO, CODIGO_DO_PRODUTO, QUANTIDADE, PRECO) values ("0102", "1000889", "10", 5);
+insert into itens_notas_fiscais(NUMERO, CODIGO_DO_PRODUTO, QUANTIDADE, PRECO) values ("0102", "1002334", "300", 15);
+
+insert into notas_fiscais(CPF, MATRICULA, DATA_VENDA, NUMERO, IMPOSTO) values ('19290992743', '00238', '2002-11-22', '0103', 0.10);
+insert into itens_notas_fiscais(NUMERO, CODIGO_DO_PRODUTO, QUANTIDADE, PRECO) values ("0103", "1000889", "10", 5);
+insert into itens_notas_fiscais(NUMERO, CODIGO_DO_PRODUTO, QUANTIDADE, PRECO) values ("0103", "1002334", "300", 15);
+
+insert into notas_fiscais(CPF, MATRICULA, DATA_VENDA, NUMERO, IMPOSTO) values ('19290992743', '00238', '2002-11-22', '0104', 0.10);
+insert into itens_notas_fiscais(NUMERO, CODIGO_DO_PRODUTO, QUANTIDADE, PRECO) values ("0104", "1000889", "10", 5);
+insert into itens_notas_fiscais(NUMERO, CODIGO_DO_PRODUTO, QUANTIDADE, PRECO) values ("0104", "1002334", "300", 15);
+
+insert into notas_fiscais(CPF, MATRICULA, DATA_VENDA, NUMERO, IMPOSTO) values ('19290992743', '00238', '2002-11-22', '0105', 0.10);
+insert into itens_notas_fiscais(NUMERO, CODIGO_DO_PRODUTO, QUANTIDADE, PRECO) values ("0105", "1000889", "10", 5);
+insert into itens_notas_fiscais(NUMERO, CODIGO_DO_PRODUTO, QUANTIDADE, PRECO) values ("0105", "1002334", "300", 15);
+
+select * from notas_fiscais A inner join itens_notas_fiscais B on A.numero = B.numero ;
+
+insert into faturamento
+select A.data_venda, sum(B.quantidade * B.PRECO) AS TOTAL_VENDA FROM notas_fiscais A inner join itens_notas_fiscais B on A.NUMERO = B.NUMERO GROUP BY A.DATA_VENDA;
+
+/*insert*/
+Delimiter // 
+create trigger tg_calcula_faturamento_insert after insert on itens_notas_fiscais for each row begin
+
+delete from faturamento;
+insert into faturamento
+select A.data_venda, sum(B.quantidade * B.PRECO) AS TOTAL_VENDA FROM notas_fiscais A inner join itens_notas_fiscais B on A.NUMERO = B.NUMERO GROUP BY A.DATA_VENDA;
+ 
+
+end //  /*delimter delimita onde começa e onde termina a operção*/
+
+/*update*/
+Delimiter // 
+create trigger tg_calcula_faturamento_update after update on itens_notas_fiscais for each row begin
+
+delete from faturamento;
+insert into faturamento
+select A.data_venda, sum(B.quantidade * B.PRECO) AS TOTAL_VENDA FROM notas_fiscais A inner join itens_notas_fiscais B on A.NUMERO = B.NUMERO GROUP BY A.DATA_VENDA;
+ 
+
+end //  /*delimter delimita onde começa e onde termina a operção*/
+
+/*delete*/
+Delimiter // 
+create trigger tg_calcula_faturamento_delete after delete on itens_notas_fiscais for each row begin
+
+delete from faturamento;
+insert into faturamento
+select A.data_venda, sum(B.quantidade * B.PRECO) AS TOTAL_VENDA FROM notas_fiscais A inner join itens_notas_fiscais B on A.NUMERO = B.NUMERO GROUP BY A.DATA_VENDA;
+ 
+
+end //  /*delimter delimita onde começa e onde termina a operção*/
 
 
+update itens_notas_fiscais set quantidade = 30 where numero = '0105' and codigo_do_produto = '1002334';
+
+delete from itens_notas_fiscais where numero = '0105' and codigo_do_produto = '1002334';
 
 
+select * from itens_notas_fiscais
